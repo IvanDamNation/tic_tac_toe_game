@@ -54,25 +54,32 @@ def main():
             finished = True
 
 
-def print_game_field(player_1, player_2):  # TODO print game field
-    game = [[0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]]
+def print_game_field(player_1, player_2): # Done. Make documentation
+    game = [[' ', ' ', ' '],
+            [' ', ' ', ' '],
+            [' ', ' ', ' ']]
+
+    for move in player_1:
+        game[move[0]][move[1]] = 'x'
+    for move in player_2:
+        game[move[0]][move[1]] = 'o'
+
+    print('\t', 0, '|', 1, '|', 2)
+    print('\t', '----------')
+
     raw = 0
-    print('\t', 0, 1, 2)
-    print('--------')
     for line in game:
         print(raw, '|', end='')
         print('\t', line)
-        print('--------')
+        print('\t', '----------')
         raw += 1
 
 
-def make_ai_turn(): #TODO ai turn
+def make_ai_turn():  # TODO ai turn
     pass
 
 
-def count_points(): #TODO count points
+def count_points():  # TODO count points
     pass
 
 

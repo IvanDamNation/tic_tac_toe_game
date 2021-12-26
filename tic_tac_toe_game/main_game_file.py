@@ -48,8 +48,12 @@ def main():
 
             if finish_game(check_condition):
                 win = True
+                print('You win!')
+                break
             elif FIELD_WIDTH**2 == moves_count:
                 tie = True
+                print('Tie.')
+                break
 
             input('Press "Enter" for AI turn.')
 
@@ -61,8 +65,12 @@ def main():
 
             if finish_game(check_condition):
                 lose = True
+                print('AI win.')
+                break
             elif FIELD_WIDTH**2 == moves_count:
                 tie = True
+                print('Tie.')
+                break
 
         print('Play another game? (Y/N):', end='')
         user_another = input().upper()
@@ -123,11 +131,12 @@ def make_ai_turn(player_1, player_2):  # Done. Make documentation
     return new_ai_move
 
 
-def finish_game(party_statement): # Remake this in future for full changeable
+def finish_game(party_statement):  # Remake this in future for full changeable
     # Horizontal check
     for line in party_statement:
         if all(line):
-            return True
+            if line[0] == 'x' or line[0] == 'o':
+                return True
 
     # Vertical check
 
@@ -138,7 +147,8 @@ def finish_game(party_statement): # Remake this in future for full changeable
             (party_statement[0][2] ==
              party_statement[1][1] ==
              party_statement[2][0]):
-        return True
+        if (party_statement[0][0] != ' ') or (party_statement[0][2] != ' '):
+            return True
 
 
 def count_points():  # TODO count points

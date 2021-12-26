@@ -35,16 +35,16 @@ def main():
 
         print_game_field(player_moves, ai_moves)
 
-        # Cycle for 1 party
+        # Cycle for 1 party # TODO make win or lose conditions
         while not (win or lose):
-            player_moves.append(make_player_turn())
+            player_moves.append(make_player_turn(player_moves, ai_moves))
             # print(player_moves)  # Uncomment for check each turn
 
             print_game_field(player_moves, ai_moves)
 
             input('Press "Enter" for AI turn.')
 
-            ai_moves.append(make_ai_turn())
+            ai_moves.append(make_ai_turn(player_moves, ai_moves))
             # print(ai_moves)  # Uncomment for check each AI turn
             print_game_field(player_moves, ai_moves)
 
@@ -75,20 +75,33 @@ def print_game_field(player_1, player_2):  # Done. Make documentation
         raw += 1
 
 
-def make_player_turn():  # Done. Make documentation
-    player_cor_x = int(input('Input coordinate in x ' +
-                             f'format(0-{FIELD_WIDTH - 1}): '))
-    player_cor_y = int(input('Input coordinate in y' +
-                             f'format(0-{FIELD_WIDTH - 1}): '))
-    new_player_move = tuple([player_cor_x, player_cor_y])
+def make_player_turn(player_1, player_2):  # Done. Make documentation
+    cheat = True
+    while cheat:
+        player_cor_x = int(input('Input coordinate in x ' +
+                                 f'format(0-{FIELD_WIDTH - 1}): '))
+        player_cor_y = int(input('Input coordinate in y ' +
+                                 f'format(0-{FIELD_WIDTH - 1}): '))
+        new_player_move = tuple([player_cor_x, player_cor_y])
+
+        if new_player_move not in set(player_1 + player_2):
+            cheat = False
+        else:
+            print('This checkbox is filled already. Try another one.')
 
     return new_player_move
 
 
-def make_ai_turn():  # Done. Make documentation
-    cor_x = random.randint(0, FIELD_WIDTH)
-    cor_y = random.randint(0, FIELD_WIDTH)
-    new_ai_move = (cor_x, cor_y)
+def make_ai_turn(player_1, player_2):  # Done. Make documentation
+    cheat = True
+    while cheat:
+        cor_x = random.randint(0, FIELD_WIDTH - 1)
+        cor_y = random.randint(0, FIELD_WIDTH - 1)
+        new_ai_move = (cor_x, cor_y)
+
+        if new_ai_move not in set(player_1 + player_2):
+            cheat = False
+
     return new_ai_move
 
 

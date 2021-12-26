@@ -1,4 +1,0 @@
-There is some random text from Vim.
-Practice makes perfect!
-
-Add new line for testing branches from older version.

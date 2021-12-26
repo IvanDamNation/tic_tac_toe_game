@@ -20,7 +20,7 @@ WIN_COUNT = 3  # How much same symbols need for win (default=3)
 
 def main():
     # Get rules
-    print('Place your mark by entering x and y field coords.')
+    print('Place your mark by entering x and y field coordinates.')
     print(f'For win make {WIN_COUNT} column, row or diagonal')
     print('with your mark.')
 
@@ -30,23 +30,39 @@ def main():
     while not finished:
         win = False
         lose = False
+        tie = False
+        moves_count = 0
         player_moves = []
         ai_moves = []
 
         print_game_field(player_moves, ai_moves)
 
-        # Cycle for 1 party # TODO make win or lose conditions
-        while not (win or lose):
+        # Cycle for 1 party # TODO replace to separate func
+        while not (win or lose or tie):
+            # Player move
             player_moves.append(make_player_turn(player_moves, ai_moves))
+            moves_count += 1
             # print(player_moves)  # Uncomment for check each turn
 
-            print_game_field(player_moves, ai_moves)
+            check_condition = print_game_field(player_moves, ai_moves)
+
+            if finish_game(check_condition):
+                win = True
+            elif FIELD_WIDTH**2 == moves_count:
+                tie = True
 
             input('Press "Enter" for AI turn.')
 
+            # AI move
             ai_moves.append(make_ai_turn(player_moves, ai_moves))
+            moves_count += 1
             # print(ai_moves)  # Uncomment for check each AI turn
-            print_game_field(player_moves, ai_moves)
+            check_condition = print_game_field(player_moves, ai_moves)
+
+            if finish_game(check_condition):
+                lose = True
+            elif FIELD_WIDTH**2 == moves_count:
+                tie = True
 
         print('Play another game? (Y/N):', end='')
         user_another = input().upper()
@@ -74,6 +90,8 @@ def print_game_field(player_1, player_2):  # Done. Make documentation
         print('\t', '----------')
         raw += 1
 
+    return game
+
 
 def make_player_turn(player_1, player_2):  # Done. Make documentation
     cheat = True
@@ -87,7 +105,7 @@ def make_player_turn(player_1, player_2):  # Done. Make documentation
         if new_player_move not in set(player_1 + player_2):
             cheat = False
         else:
-            print('This checkbox is filled already. Try another one.')
+            print('This place is filled already. Try another one.')
 
     return new_player_move
 
@@ -103,6 +121,24 @@ def make_ai_turn(player_1, player_2):  # Done. Make documentation
             cheat = False
 
     return new_ai_move
+
+
+def finish_game(party_statement): # Remake this in future for full changeable
+    # Horizontal check
+    for line in party_statement:
+        if all(line):
+            return True
+
+    # Vertical check
+
+    # Diagonal check
+    if (party_statement[0][0] ==
+            party_statement[1][1] ==
+            party_statement[2][2]) or \
+            (party_statement[0][2] ==
+             party_statement[1][1] ==
+             party_statement[2][0]):
+        return True
 
 
 def count_points():  # TODO count points

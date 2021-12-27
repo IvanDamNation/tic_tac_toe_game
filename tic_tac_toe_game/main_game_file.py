@@ -100,6 +100,7 @@ def print_game_field(player_1, player_2):  # Done. Make documentation
 
 
 def make_player_turn(player_1, player_2):  # Done. Make documentation
+    new_player_move = None
     cheat = True
     while cheat:
         try:
@@ -124,6 +125,7 @@ def make_player_turn(player_1, player_2):  # Done. Make documentation
 
 
 def make_ai_turn(player_1, player_2):  # Done. Make documentation
+    new_ai_move = None
     cheat = True
     while cheat:
         cor_x = random.randint(0, FIELD_WIDTH - 1)

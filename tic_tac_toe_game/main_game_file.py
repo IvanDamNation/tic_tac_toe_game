@@ -44,7 +44,6 @@ def main():
             player_moves.append(make_player_turn(player_moves, ai_moves))
             moves_count += 1
             # print(player_moves)  # Uncomment for check each turn
-
             check_condition = print_game_field(player_moves, ai_moves)
 
             if finish_game(check_condition):
@@ -80,9 +79,7 @@ def main():
 
 
 def print_game_field(player_1, player_2):  # Done. Make documentation
-    game = [[' ', ' ', ' '],
-            [' ', ' ', ' '],
-            [' ', ' ', ' ']]
+    game = [[' '] * FIELD_WIDTH for line in range(FIELD_WIDTH)]
 
     for move in player_1:
         game[move[0]][move[1]] = 'x'
@@ -105,16 +102,23 @@ def print_game_field(player_1, player_2):  # Done. Make documentation
 def make_player_turn(player_1, player_2):  # Done. Make documentation
     cheat = True
     while cheat:
-        player_cor_x = int(input('Input coordinate in x ' +
-                                 f'format(0-{FIELD_WIDTH - 1}): '))
-        player_cor_y = int(input('Input coordinate in y ' +
-                                 f'format(0-{FIELD_WIDTH - 1}): '))
-        new_player_move = tuple([player_cor_x, player_cor_y])
+        try:
+            player_cor_x = int(input('Input coordinate in x ' +
+                                     f'format(0-{FIELD_WIDTH - 1}): '))
+            player_cor_y = int(input('Input coordinate in y ' +
+                                     f'format(0-{FIELD_WIDTH - 1}): '))
+            new_player_move = tuple([player_cor_y, player_cor_x])
 
-        if new_player_move not in set(player_1 + player_2):
-            cheat = False
-        else:
-            print('This place is filled already. Try another one.')
+            if new_player_move in set(player_1 + player_2):
+                print('This place is filled already. Try another one.')
+            elif player_cor_x < 0 or player_cor_x > FIELD_WIDTH:
+                print('X coordinate is out of field.')
+            elif player_cor_y < 0 or player_cor_y > FIELD_WIDTH:
+                print('Y coordinate is out of field.')
+            else:
+                cheat = False
+        except ValueError:
+            print('Error! Check your input.')
 
     return new_player_move
 

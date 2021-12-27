@@ -28,6 +28,7 @@ def main():
 
     # Cycle for whole game
     while not finished:
+        # Starting condition
         win = False
         lose = False
         tie = False
@@ -131,24 +132,38 @@ def make_ai_turn(player_1, player_2):  # Done. Make documentation
     return new_ai_move
 
 
-def finish_game(party_statement):  # Remake this in future for full changeable
+# Make documentation
+def finish_game(party):  # Remake this in future for full changeable (Done)
     # Horizontal check
-    for line in party_statement:
-        if all(line):
-            if line[0] == 'x' or line[0] == 'o':
-                return True
+    for line in range(FIELD_WIDTH):
+        win_streak = []
+        for col in range(FIELD_WIDTH):
+            win_streak.append(party[line][col])
+        if len(set(win_streak)) == 1 and ' ' not in win_streak:
+            return True
 
     # Vertical check
-
-    # Diagonal check
-    if (party_statement[0][0] ==
-            party_statement[1][1] ==
-            party_statement[2][2]) or \
-            (party_statement[0][2] ==
-             party_statement[1][1] ==
-             party_statement[2][0]):
-        if (party_statement[0][0] != ' ') or (party_statement[0][2] != ' '):
+    for line in range(FIELD_WIDTH):
+        win_streak = []
+        for col in range(FIELD_WIDTH):
+            win_streak.append(party[col][line])
+        if len(set(win_streak)) == 1 and ' ' not in win_streak:
             return True
+
+    # Diagonal check #1
+    win_streak = []
+    for index in range(FIELD_WIDTH):
+        win_streak.append(party[index][index])
+    if len(set(win_streak)) == 1 and ' ' not in win_streak:
+        return True
+
+    # Diagonal check #2
+    for index in range(FIELD_WIDTH):
+        win_streak.append(party[index][FIELD_WIDTH - 1 - index])
+    if len(set(win_streak)) == 1 and ' ' not in win_streak:
+        return True
+
+    return False
 
 
 def count_points():  # TODO count points

@@ -7,7 +7,7 @@
 # For education purpose only. Workability is not guarantee.
 
 # Made by IvanDamNation (a.k.a. IDN)
-# GNU General Public License v3.0
+# GNU General Public License v3, 2021
 
 
 import random  # for AI turns
@@ -19,62 +19,69 @@ FIELD_WIDTH = 3  # Game field columns and rows (default=3)
 
 def main():
     # Get rules
+    print('Welcome to the "tik-tak-toe" game')
     print('Place your mark by entering x and y field coordinates.')
+    print('Classical rules:')
     print(f'For win make {FIELD_WIDTH} column, row or diagonal')
     print('with your mark.')
 
     finished = False
+    # points = [[], []]
 
     # Cycle for whole game
     while not finished:
-        # Starting condition
-        win = False
-        lose = False
-        tie = False
-        moves_count = 0
-        player_moves = []
-        ai_moves = []
+        result = body_game_party()
 
-        print_game_field(player_moves, ai_moves)
-
-        # Cycle for 1 party # TODO replace to separate func
-        while not (win or lose or tie):
-            # Player move
-            player_moves.append(make_player_turn(player_moves, ai_moves))
-            moves_count += 1
-            # print(player_moves)  # Uncomment for check each turn
-            check_condition = print_game_field(player_moves, ai_moves)
-
-            if finish_game(check_condition):
-                win = True
-                print('You win!')
-                break
-            elif FIELD_WIDTH**2 == moves_count:
-                tie = True
-                print('Tie.')
-                break
-
-            input('Press "Enter" for AI turn.')
-
-            # AI move
-            ai_moves.append(make_ai_turn(player_moves, ai_moves))
-            moves_count += 1
-            # print(ai_moves)  # Uncomment for check each AI turn
-            check_condition = print_game_field(player_moves, ai_moves)
-
-            if finish_game(check_condition):
-                lose = True
-                print('AI win.')
-                break
-            elif FIELD_WIDTH**2 == moves_count:
-                tie = True
-                print('Tie.')
-                break
+        count_points(result)
 
         print('Play another game? (Y/N):', end='')
         user_another = input().upper()
         if user_another == 'N':
             finished = True
+
+
+def body_game_party():
+    # Starting condition
+    party_result = None
+    moves_count = 0
+    player_moves = []
+    ai_moves = []
+
+    print_game_field(player_moves, ai_moves)
+
+    # Cycle for party #
+    while not party_result:
+        # Player move
+        player_moves.append(make_player_turn(player_moves, ai_moves))
+        moves_count += 1
+        # print(player_moves)  # Uncomment for check each turn
+        check_condition = print_game_field(player_moves, ai_moves)
+
+        if finish_game(check_condition):
+            party_result = 'win'
+            print('You win!')
+            return party_result
+        elif FIELD_WIDTH ** 2 == moves_count:
+            party_result = 'tie'
+            print('Tie.')
+            return party_result
+
+        input('Press "Enter" for AI turn.')
+
+        # AI move
+        ai_moves.append(make_ai_turn(player_moves, ai_moves))
+        moves_count += 1
+        # print(ai_moves)  # Uncomment for check each AI turn
+        check_condition = print_game_field(player_moves, ai_moves)
+
+        if finish_game(check_condition):
+            party_result = 'lose'
+            print('AI win.')
+            return party_result
+        elif FIELD_WIDTH ** 2 == moves_count:
+            party_result = 'tie'
+            print('Tie.')
+            return party_result
 
 
 def print_game_field(player_1, player_2):  # Done. Make documentation
@@ -171,7 +178,7 @@ def finish_game(party):  # Remake this in future for full changeable (Done)
     return False
 
 
-def count_points():  # TODO count points
+def count_points(party_ending):  # TODO count points
     pass
 
 

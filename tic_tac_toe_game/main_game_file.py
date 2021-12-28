@@ -51,34 +51,30 @@ def body_game_party():
 
     # Cycle for party #
     while not party_result:
-        # Player move
-        player_moves.append(make_player_turn(player_moves, ai_moves))
         moves_count += 1
+
+        if moves_count % 2 != 0:
+            # Player move
+            player_moves.append(make_player_turn(player_moves, ai_moves))
+            # print(ai_moves)  # Uncomment for check each player turn
+        elif moves_count % 2 == 0:
+            input('Press "Enter" for AI turn.')
+            # AI move
+            ai_moves.append(make_ai_turn(player_moves, ai_moves))
+            # print(ai_moves)  # Uncomment for check each AI turn
+
         # print(player_moves)  # Uncomment for check each turn
         check_condition = print_game_field(player_moves, ai_moves)
 
-        if finish_game(check_condition):
+        if finish_game(check_condition) and moves_count % 2 != 0:
             party_result = 'win'
             print('You win!')
             return party_result
-        elif FIELD_WIDTH ** 2 == moves_count:
-            party_result = 'tie'
-            print('Tie.')
-            return party_result
-
-        input('Press "Enter" for AI turn.')
-
-        # AI move
-        ai_moves.append(make_ai_turn(player_moves, ai_moves))
-        moves_count += 1
-        # print(ai_moves)  # Uncomment for check each AI turn
-        check_condition = print_game_field(player_moves, ai_moves)
-
-        if finish_game(check_condition):
+        elif finish_game(check_condition):
             party_result = 'lose'
             print('AI win.')
             return party_result
-        elif FIELD_WIDTH ** 2 == moves_count:
+        elif moves_count == FIELD_WIDTH ** 2:
             party_result = 'tie'
             print('Tie.')
             return party_result

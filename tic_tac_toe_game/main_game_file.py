@@ -14,7 +14,7 @@ import random  # for AI turns
 
 # Options
 FIELD_WIDTH = 3  # Game field columns and rows (default=3)
-# In plans: make "FIELD_WIDTH" full changeable
+# In plans: make "FIELD_WIDTH" full changeable (Done)
 
 
 def main():
@@ -85,14 +85,14 @@ def print_game_field(player_1, player_2):  # Done. Make documentation
     for move in player_2:
         game[move[0]][move[1]] = 'o'
 
-    print('\t', 0, '|', 1, '|', 2)
-    print('\t', '----------')
+    print('\t', ' | '.join(map(str, range(FIELD_WIDTH))), end=' |\n')
+    print('\t', '----' * FIELD_WIDTH, sep='')
 
     raw = 0
     for line in game:
-        print(raw, '|', end='')
-        print('\t', line[0], '|', line[1], '|', line[2])
-        print('\t', '----------')
+        print(raw, ' | ', end='')
+        print(' | '.join(map(str, line)), end=' |\n')
+        print('\t', '----' * FIELD_WIDTH, sep='')
         raw += 1
 
     return game

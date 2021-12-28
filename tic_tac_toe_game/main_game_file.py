@@ -14,14 +14,13 @@ import random  # for AI turns
 
 # Options
 FIELD_WIDTH = 3  # Game field columns and rows (default=3)
-WIN_COUNT = 3  # How much same symbols need for win (default=3)
-# In plans: make "FIELD_WIDTH" changeable
+# In plans: make "FIELD_WIDTH" full changeable
 
 
 def main():
     # Get rules
     print('Place your mark by entering x and y field coordinates.')
-    print(f'For win make {WIN_COUNT} column, row or diagonal')
+    print(f'For win make {FIELD_WIDTH} column, row or diagonal')
     print('with your mark.')
 
     finished = False

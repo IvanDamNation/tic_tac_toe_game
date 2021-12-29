@@ -18,6 +18,13 @@ FIELD_WIDTH = 3  # Game field columns and rows (default=3)
 
 
 def main():
+    """
+    Base starting function of the program. Calls functions of
+    1 game round and counting score.
+    Holds points for numerous rounds.
+    :return: None
+    """
+
     # Get rules
     print('Welcome to the "tic-tac-toe" game!')
     print('Place your mark by entering x and y field coordinates.')
@@ -43,6 +50,12 @@ def main():
 
 
 def body_game_party():
+    """
+    Sub-main function for one round. Controlling turns and determines
+    the winner. Calls function of field printing.
+    :return: result of the round (win, lose or tie)
+    """
+
     # Starting condition
     party_result = None
     moves_count = 0
@@ -81,7 +94,14 @@ def body_game_party():
             return party_result
 
 
-def print_game_field(player_1, player_2):  # Done. Make documentation
+def print_game_field(player_1: list, player_2: list):
+    """
+    Prints visualized form of round statement, based on move logs.
+    :param player_1: Log of Player moves
+    :param player_2: Log of AI moves
+    :return: 'game field'-list
+    """
+
     game = [[' '] * FIELD_WIDTH for _ in range(FIELD_WIDTH)]
 
     for move in player_1:
@@ -102,7 +122,15 @@ def print_game_field(player_1, player_2):  # Done. Make documentation
     return game
 
 
-def make_player_turn(player_1, player_2):  # Done. Make documentation
+def make_player_turn(player_1: list, player_2: list):
+    """
+    Gets coordinates from player for new move. Have primitive
+    anti-cheat and fool-protection.
+    :param player_1: Log of Player moves
+    :param player_2: Log of AI moves
+    :return: Coordinates of new Player mark
+    """
+
     new_player_move = None
     cheat = True
     while cheat:
@@ -127,7 +155,14 @@ def make_player_turn(player_1, player_2):  # Done. Make documentation
     return new_player_move
 
 
-def make_ai_turn(player_1, player_2):  # Done. Make documentation
+def make_ai_turn(player_1: list, player_2: list):
+    """
+    Make AI get coordinates for new move. Have 'same move'-protection.
+    :param player_1: Log of Player moves
+    :param player_2: Log of AI moves
+    :return: Coordinates of new AI mark
+    """
+
     new_ai_move = None
     cheat = True
     while cheat:
@@ -141,7 +176,14 @@ def make_ai_turn(player_1, player_2):  # Done. Make documentation
     return new_ai_move
 
 
-def finish_game(party):  # Make documentation
+def finish_game(party: list):
+    """
+    Function trying to find 'win combination' and stops the round
+    prematurely.
+    :param party: 'game field'-list
+    :return: True or False
+    """
+
     # Horizontal check
     for line in range(FIELD_WIDTH):
         win_streak = []
@@ -175,7 +217,13 @@ def finish_game(party):  # Make documentation
     return False
 
 
-def count_points(party_ending, points):  # Done. Make documentation
+def count_points(party_ending: str, points: list):
+    """
+    Giving 1 point to winner of this round.
+    :param party_ending: result of game round
+    :param points: score counter from previous rounds
+    :return: renewed score counter
+    """
     if party_ending == 'win':
         points[0] += 1
         return points

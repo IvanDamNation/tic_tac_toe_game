@@ -1,5 +1,6 @@
 # This is a main file of "tic-tac-toe" game.
-# Gameplay in Python Console only (for now)
+# Gameplay in Python Console only (for now).
+# 'AI' is primitive (just random)
 
 # Made for final practice exercise in chapter
 # "Introduction in Python" for SkillFactory
@@ -14,12 +15,11 @@ import random  # for AI turns
 
 # Options
 FIELD_WIDTH = 3  # Game field columns and rows (default=3)
-# In plans: make "FIELD_WIDTH" full changeable (Done)
 
 
 def main():
     # Get rules
-    print('Welcome to the "tik-tak-toe" game')
+    print('Welcome to the "tic-tac-toe" game!')
     print('Place your mark by entering x and y field coordinates.')
     print('Classical rules:')
     print(f'For win make {FIELD_WIDTH} column, row or diagonal')
@@ -38,7 +38,7 @@ def main():
 
         print('Play another game? (Y/N):', end='')
         user_another = input().upper()
-        if user_another == 'N':
+        if user_another != 'Y':
             finished = True
 
 
@@ -51,7 +51,7 @@ def body_game_party():
 
     print_game_field(player_moves, ai_moves)
 
-    # Cycle for party #
+    # Cycle for party
     while not party_result:
         moves_count += 1
 
@@ -65,7 +65,6 @@ def body_game_party():
             ai_moves.append(make_ai_turn(player_moves, ai_moves))
             # print(ai_moves)  # Uncomment for check each AI turn
 
-        # print(player_moves)  # Uncomment for check each turn
         check_condition = print_game_field(player_moves, ai_moves)
 
         if finish_game(check_condition) and moves_count % 2 != 0:
@@ -112,7 +111,7 @@ def make_player_turn(player_1, player_2):  # Done. Make documentation
                                      f'format(0-{FIELD_WIDTH - 1}): '))
             player_cor_y = int(input('Input coordinate in y ' +
                                      f'format(0-{FIELD_WIDTH - 1}): '))
-            new_player_move = tuple([player_cor_y, player_cor_x])
+            new_player_move = (player_cor_y, player_cor_x)
 
             if new_player_move in set(player_1 + player_2):
                 print('This place is filled already. Try another one.')
@@ -142,8 +141,7 @@ def make_ai_turn(player_1, player_2):  # Done. Make documentation
     return new_ai_move
 
 
-# Make documentation
-def finish_game(party):  # Remake this in future for full changeable (Done)
+def finish_game(party):  # Make documentation
     # Horizontal check
     for line in range(FIELD_WIDTH):
         win_streak = []
@@ -168,8 +166,9 @@ def finish_game(party):  # Remake this in future for full changeable (Done)
         return True
 
     # Diagonal check #2
+    win_streak = []
     for index in range(FIELD_WIDTH):
-        win_streak.append(party[index][FIELD_WIDTH - 1 - index])
+        win_streak.append(party[index][-1 - index])
     if len(set(win_streak)) == 1 and ' ' not in win_streak:
         return True
 

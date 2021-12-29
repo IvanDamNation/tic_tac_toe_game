@@ -26,13 +26,15 @@ def main():
     print('with your mark.')
 
     finished = False
-    # points = [[], []]
+    score = [0, 0]
 
     # Cycle for whole game
     while not finished:
         result = body_game_party()
 
-        count_points(result)
+        score = count_points(result, score)
+
+        print('Score (Player-AI):', score[0], '-', score[1])
 
         print('Play another game? (Y/N):', end='')
         user_another = input().upper()
@@ -81,7 +83,7 @@ def body_game_party():
 
 
 def print_game_field(player_1, player_2):  # Done. Make documentation
-    game = [[' '] * FIELD_WIDTH for line in range(FIELD_WIDTH)]
+    game = [[' '] * FIELD_WIDTH for _ in range(FIELD_WIDTH)]
 
     for move in player_1:
         game[move[0]][move[1]] = 'x'
@@ -174,8 +176,15 @@ def finish_game(party):  # Remake this in future for full changeable (Done)
     return False
 
 
-def count_points(party_ending):  # TODO count points
-    pass
+def count_points(party_ending, points):  # Done. Make documentation
+    if party_ending == 'win':
+        points[0] += 1
+        return points
+    elif party_ending == 'lose':
+        points[1] += 1
+        return points
+    else:
+        return points
 
 
 # Start main function

@@ -12,44 +12,19 @@
 
 
 import random  # for AI turns
+from options import *
 
-# Options
-FIELD_WIDTH = 3  # Game field columns and rows (default=3)
-
-
-def main():
-    """
-    Base starting function of the program. Calls functions of
-    1 game round and counting score.
-    Holds points for numerous rounds.
-    :return: None
-    """
-
-    # Get rules
-    print('Welcome to the "tic-tac-toe" game!')
-    print('Place your mark by entering x and y field coordinates.')
-    print('Classical rules:')
-    print(f'For win make {FIELD_WIDTH} column, row or diagonal')
-    print('with your mark.')
-
-    finished = False
-    score = [0, 0]
-
-    # Cycle for whole game
-    while not finished:
-        result = body_game_party()
-
-        score = count_points(result, score)
-
-        print('Score (Player-AI):', score[0], '-', score[1])
-
-        print('Play another game? (Y/N):', end='')
-        user_another = input().upper()
-        if user_another != 'Y':
-            finished = True
+def rules():
+    return f'''
+            Welcome to the "tic-tac-toe" game!\n
+            Place your mark by entering x and y field coordinates.\n
+            Classical rules:\n
+            For win make {FIELD_WIDTH} column, row or diagonal'\n
+            with your mark.
+            '''
 
 
-def body_game_party():
+def game_party():
     """
     Sub-main function for one round. Controlling turns and determines
     the winner. Calls function of field printing.
@@ -62,7 +37,7 @@ def body_game_party():
     player_moves = []
     ai_moves = []
 
-    print_game_field(player_moves, ai_moves)
+    game_field(player_moves, ai_moves)
 
     # Cycle for party
     while not party_result:
@@ -70,7 +45,7 @@ def body_game_party():
 
         if moves_count % 2 != 0:
             # Player move
-            player_moves.append(make_player_turn(player_moves, ai_moves))
+            player_moves.append(make_turn(player_moves, ai_moves))
             # print(ai_moves)  # Uncomment for check each player turn
         elif moves_count % 2 == 0:
             input('Press "Enter" for AI turn.')
@@ -78,7 +53,7 @@ def body_game_party():
             ai_moves.append(make_ai_turn(player_moves, ai_moves))
             # print(ai_moves)  # Uncomment for check each AI turn
 
-        check_condition = print_game_field(player_moves, ai_moves)
+        check_condition = game_field(player_moves, ai_moves)
 
         if finish_game(check_condition) and moves_count % 2 != 0:
             party_result = 'win'
@@ -94,7 +69,7 @@ def body_game_party():
             return party_result
 
 
-def print_game_field(player_1: list, player_2: list):
+def game_field(player_1: list, player_2: list):
     """
     Prints visualized form of round statement, based on move logs.
     :param player_1: Log of Player moves
@@ -122,7 +97,7 @@ def print_game_field(player_1: list, player_2: list):
     return game
 
 
-def make_player_turn(player_1: list, player_2: list):
+def make_turn(player_1: list, player_2: list):
     """
     Gets coordinates from player for new move. Have primitive
     anti-cheat and fool-protection.
@@ -183,7 +158,8 @@ def finish_game(party: list):
     :param party: 'game field'-list
     :return: True or False
     """
-
+    # TODO: рефакторить повторяющийся код
+    
     # Horizontal check
     for line in range(FIELD_WIDTH):
         win_streak = []
@@ -226,13 +202,26 @@ def count_points(party_ending: str, points: list):
     """
     if party_ending == 'win':
         points[0] += 1
-        return points
     elif party_ending == 'lose':
         points[1] += 1
-        return points
-    else:
-        return points
+    return points
 
 
-# Start main function
-main()
+if __name__ == '__main__':
+    print(rules())
+
+    finished = False
+    score = [0, 0]
+
+    # Cycle for whole game
+    while not finished:
+        result = game_party()
+
+        score = count_points(result, score)
+
+        print('Score (Player-AI):', score[0], '-', score[1])
+
+        print('Play another game? (Y/N):', end='')
+        user_another = input().upper()
+        if user_another != 'Y':
+            finished = True
